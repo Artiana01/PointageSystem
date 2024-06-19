@@ -1,7 +1,5 @@
 package org.example.model.employe.calendrier;
 
-import org.example.model.employe.NotImplemented;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,9 +11,10 @@ public class CalendrierTravail {
 
     public CalendrierTravail(List<LocalDate> mois, List<LocalDate> jour_feries) {
         this.mois = mois;
-        jour_feries.add(LocalDate.of(2024, 6, 17));
-        jour_feries.add(LocalDate.of(2024, 6, 25));
-        jour_feries.add(LocalDate.of(2024, 6, 26));
+        this.jour_feries = jour_feries;
+        this.jour_feries.add(LocalDate.of(2024, 6, 17));
+        this.jour_feries.add(LocalDate.of(2024, 6, 25));
+        this.jour_feries.add(LocalDate.of(2024, 6, 26));
     }
 
     public void remplir_mois_de_juin() {
@@ -26,27 +25,12 @@ public class CalendrierTravail {
         }
     }
 
-
     public boolean est_week_end(LocalDate jour) {
         DayOfWeek dayOfWeek = jour.getDayOfWeek();
-        DayOfWeek samedi = DayOfWeek.SATURDAY;
-        DayOfWeek dimanche = DayOfWeek.SUNDAY;
-        if (dayOfWeek.equals(samedi) || dayOfWeek.equals(dimanche)) {
-            return true;
-        }
-        return false;
+        return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
     }
 
     public boolean est_jour_ferie(LocalDate jour) {
-        for (LocalDate ferie : jour_feries) {
-            if (
-                    ferie.equals(LocalDate.of(2024, 6, 17)) ||
-                            ferie.equals(LocalDate.of(2024, 6, 25)) ||
-                            ferie.equals(LocalDate.of(2024, 6, 17)
-                            )) {
-                return true;
-            }
-        }
-        return false;
+        return jour_feries.contains(jour);
     }
 }
