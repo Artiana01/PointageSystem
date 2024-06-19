@@ -67,16 +67,17 @@ public class Employe {
         this.categorie = categorie;
     }
 
-    // Calcul des heures de travail pour Rakoto et Rabe
     public int calculer_heures_travail(List<LocalDate> jours_travailles, CalendrierTravail calendrier) {
         int total_heures = 0;
         for (LocalDate jour : jours_travailles) {
-            if (!calendrier.est_jour_ferie(jour)) {
-                total_heures += 8;
+            if (!calendrier.est_jour_ferie(jour) && !calendrier.est_week_end(jour)) {
+                total_heures += 8;  // Add 8 hours only if it's a working day (not a holiday or weekend)
             }
         }
         return total_heures;
     }
+
+
 
     public double calculer_heures_majorees(List<LocalDate> jours_travailles, CalendrierTravail calendrier) {
         double total_heures_majorees = 0;
