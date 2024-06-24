@@ -15,13 +15,7 @@ public class Employe {
     private Salaire montant_salaire;
     private String categorie;
 
-    public Employe(String nom_complet,
-                   int numero_matricule,
-                   String date_de_naissance,
-                   String date_embauche,
-                   String date_fin_de_contrat,
-                   Salaire montant_salaire,
-                   String categorie) {
+    public Employe(String nom_complet, int numero_matricule, String date_de_naissance, String date_embauche, String date_fin_de_contrat, Salaire montant_salaire, String categorie) {
         this.nom_complet = nom_complet;
         this.numero_matricule = numero_matricule;
         this.date_de_naissance = date_de_naissance;
@@ -71,7 +65,9 @@ public class Employe {
         int total_heures = 0;
         for (LocalDate jour : jours_travailles) {
             if (!calendrier.est_jour_ferie(jour) && !calendrier.est_week_end(jour)) {
-                total_heures += 10;
+                total_heures += 10; 
+            } else {
+                total_heures += 14;
             }
         }
         return total_heures;

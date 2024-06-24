@@ -11,7 +11,7 @@ public class Main {
         List<LocalDate> mois = new ArrayList<>();
         List<LocalDate> joursFeries = new ArrayList<>();
         List<LocalDate> weekend = new ArrayList<>();
-        Calendrier calendrier = new Calendrier(mois, joursFeries, weekend);
+        Calendrier calendrier = new Calendrier();
         calendrier.mois();
 
         System.out.println("Calendrier : " + calendrier.getMois());

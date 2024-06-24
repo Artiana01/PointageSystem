@@ -10,10 +10,10 @@ public class Calendrier {
     private List<LocalDate> jour_feries = new ArrayList<>();
     private List<LocalDate> week_end = new ArrayList<>();
 
-    public Calendrier(List<LocalDate> mois, List<LocalDate> jour_feries, List<LocalDate> week_end) {
-        this.mois = mois;
-        this.jour_feries = jour_feries;
-        this.week_end = week_end;
+    public Calendrier() {
+        this.mois = new ArrayList<>();
+        this.jour_feries = new ArrayList<>();
+        this.week_end = new ArrayList<>();
         this.jour_feries.add(LocalDate.of(2024, 6, 17));
         this.jour_feries.add(LocalDate.of(2024, 6, 25));
         this.jour_feries.add(LocalDate.of(2024, 6, 26));
@@ -49,5 +49,9 @@ public class Calendrier {
 
     public List<LocalDate> getWeekEnd() {
         return week_end;
+    }
+
+    public void ajouterJourFerie(LocalDate jourFerie) {
+        jour_feries.add(jourFerie);
     }
 }
