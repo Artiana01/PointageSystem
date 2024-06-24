@@ -71,19 +71,17 @@ public class Employe {
         int total_heures = 0;
         for (LocalDate jour : jours_travailles) {
             if (!calendrier.est_jour_ferie(jour) && !calendrier.est_week_end(jour)) {
-                total_heures += 8;  // Add 8 hours only if it's a working day (not a holiday or weekend)
+                total_heures += 10;
             }
         }
         return total_heures;
     }
 
-
-
     public double calculer_heures_majorees(List<LocalDate> jours_travailles, Calendrier calendrier) {
         double total_heures_majorees = 0;
         for (LocalDate jour : jours_travailles) {
             if (calendrier.est_jour_ferie(jour) || calendrier.est_week_end(jour)) {
-                total_heures_majorees += 8;
+                total_heures_majorees += 14;
             }
         }
         return total_heures_majorees * 1.3;

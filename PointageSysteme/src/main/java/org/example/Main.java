@@ -1,8 +1,6 @@
 package org.example;
 
-import org.example.model.employe.Employe;
 import org.example.model.employe.calendrier.Calendrier;
-import org.example.model.employe.salaire.Salaire;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,11 +11,11 @@ public class Main {
         List<LocalDate> mois = new ArrayList<>();
         List<LocalDate> joursFeries = new ArrayList<>();
         List<LocalDate> weekend = new ArrayList<>();
-        Calendrier calendrier = new Calendrier(mois, joursFeries , weekend);
+        Calendrier calendrier = new Calendrier(mois, joursFeries, weekend);
         calendrier.mois();
 
-        System.out.println("Calendrier :"+mois);
-        System.out.println("jours feriés :"+joursFeries);
-        System.out.println("week_end:"+ weekend);
+        System.out.println("Calendrier : " + calendrier.getMois());
+        System.out.println("Jours fériés : " + calendrier.getJourFeries());
+        System.out.println("Week-end : " + calendrier.getWeekEnd());
     }
 }
