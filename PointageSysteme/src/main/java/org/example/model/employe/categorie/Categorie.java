@@ -37,3 +37,4 @@ public sealed abstract class  Categorie permits
         return indemnite;
     }
 }
+
