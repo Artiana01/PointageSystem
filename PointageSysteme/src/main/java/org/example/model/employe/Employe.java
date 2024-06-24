@@ -1,56 +1,56 @@
 package org.example.model.employe;
 
-import org.example.model.employe.salaire.Salaire;
 import org.example.model.employe.calendrier.Calendrier;
+import org.example.model.employe.salaire.Salaire;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class Employe {
-    private final String nom_complet;
-    private final int numero_matricule;
-    private final String date_de_naissance;
-    private final String date_embauche;
-    private String date_fin_de_contrat;
-    private Salaire montant_salaire;
+    private final String nomComplet;
+    private final int numeroMatricule;
+    private final String dateDeNaissance;
+    private final String dateEmbauche;
+    private String dateFinDeContrat;
+    private Salaire montantSalaire;
     private String categorie;
 
-    public Employe(String nom_complet, int numero_matricule, String date_de_naissance, String date_embauche, String date_fin_de_contrat, Salaire montant_salaire, String categorie) {
-        this.nom_complet = nom_complet;
-        this.numero_matricule = numero_matricule;
-        this.date_de_naissance = date_de_naissance;
-        this.date_embauche = date_embauche;
-        this.date_fin_de_contrat = date_fin_de_contrat;
-        this.montant_salaire = montant_salaire;
+    public Employe(String nomComplet, int numeroMatricule, String dateDeNaissance, String dateEmbauche, String dateFinDeContrat, Salaire montantSalaire, String categorie) {
+        this.nomComplet = nomComplet;
+        this.numeroMatricule = numeroMatricule;
+        this.dateDeNaissance = dateDeNaissance;
+        this.dateEmbauche = dateEmbauche;
+        this.dateFinDeContrat = dateFinDeContrat;
+        this.montantSalaire = montantSalaire;
         this.categorie = categorie;
     }
 
-    public String getNom_complet() {
-        return nom_complet;
+    public String getNomComplet() {
+        return nomComplet;
     }
 
-    public int getNumero_matricule() {
-        return numero_matricule;
+    public int getNumeroMatricule() {
+        return numeroMatricule;
     }
 
-    public String getDate_de_naissance() {
-        return date_de_naissance;
+    public String getDateDeNaissance() {
+        return dateDeNaissance;
     }
 
-    public String getDate_embauche() {
-        return date_embauche;
+    public String getDateEmbauche() {
+        return dateEmbauche;
     }
 
-    public String getDate_fin_de_contrat() {
-        return date_fin_de_contrat;
+    public String getDateFinDeContrat() {
+        return dateFinDeContrat;
     }
 
-    public void setDate_fin_de_contrat(String date_fin_de_contrat) {
-        this.date_fin_de_contrat = date_fin_de_contrat;
+    public void setDateFinDeContrat(String dateFinDeContrat) {
+        this.dateFinDeContrat = dateFinDeContrat;
     }
 
-    public Salaire getMontant_salaire() {
-        return montant_salaire;
+    public Salaire getMontantSalaire() {
+        return montantSalaire;
     }
 
     public String getCategorie() {
@@ -61,41 +61,45 @@ public class Employe {
         this.categorie = categorie;
     }
 
-    public int calculer_heures_travail(List<LocalDate> jours_travailles, Calendrier calendrier) {
-        int total_heures = 0;
-        for (LocalDate jour : jours_travailles) {
-            if (!calendrier.est_jour_ferie(jour) && !calendrier.est_week_end(jour)) {
-                total_heures += 10; 
-            } else {
-                total_heures += 14;
+    public int calculerHeuresTravail(List<LocalDate> joursTravailles, Calendrier calendrier) {
+        int totalHeures = 0;
+        for (LocalDate jour : joursTravailles) {
+            if (!calendrier.estJourFerie(jour) && !calendrier.estWeekEnd(jour)) {
+                if (this.categorie.equals("Gardien")) {
+                    totalHeures += 10; // 10 heures pour le travail de jour
+                } else {
+                    totalHeures += 14; // 14 heures pour le travail de nuit
+                }
             }
         }
-        return total_heures;
+        return totalHeures;
     }
 
-    public double calculer_heures_majorees(List<LocalDate> jours_travailles, Calendrier calendrier) {
-        double total_heures_majorees = 0;
-        for (LocalDate jour : jours_travailles) {
-            if (calendrier.est_jour_ferie(jour) || calendrier.est_week_end(jour)) {
-                total_heures_majorees += 14;
+    public double calculerHeuresMajorees(List<LocalDate> joursTravailles, Calendrier calendrier) {
+        double totalHeuresMajorees = 0;
+        for (LocalDate jour : joursTravailles) {
+            if (calendrier.estJourFerie(jour)) {
+                if (this.categorie.equals("Gardien")) {
+                    totalHeuresMajorees += 10; // 10 heures majorées pour le travail de jour
+                } else {
+                    totalHeuresMajorees += 14; // 14 heures majorées pour le travail de nuit
+                }
+            } else if (!calendrier.estWeekEnd(jour)) {
+                if (this.categorie.equals("Gardien")) {
+                    totalHeuresMajorees += 10 * 1.3; // 10 heures majorées pour le travail de jour + 30%
+                } else {
+                    totalHeuresMajorees += 14 * 1.5; // 14 heures majorées pour le travail de nuit + 50%
+                }
             }
         }
-        return total_heures_majorees * 1.3;
+        return totalHeuresMajorees;
     }
 
-    public double calculer_heures_supplementaires(int heures_normales, int heures_travail) {
-        int heures_supplementaires = heures_travail - heures_normales;
-        if (heures_supplementaires > 20) {
-            heures_supplementaires = 20;
-        }
-        return heures_supplementaires > 0 ? heures_supplementaires * 1.3 : 0;
+    public double calculerSalaireBrut(int heuresTravail, double salaireParSemaine) {
+        return (heuresTravail / 40.0) * salaireParSemaine; // Salaire brut pour 40 heures par semaine
     }
 
-    public double calculer_salaire_brut(int heures_travail, double salaire_par_semaine) {
-        return (heures_travail / 40.0) * salaire_par_semaine;
-    }
-
-    public double calculer_salaire_net(double salaire_brut) {
-        return salaire_brut * 0.8;
+    public double calculerSalaireNet(double salaireBrut) {
+        return salaireBrut * 0.8; // Salaire net après déduction des taxes
     }
 }
