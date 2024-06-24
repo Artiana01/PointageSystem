@@ -7,36 +7,41 @@ import java.util.List;
 
 public class Calendrier {
     private List<LocalDate> mois = new ArrayList<>();
-    private List<LocalDate> jour_feries = new ArrayList<>();
-    private List<LocalDate> week_end = new ArrayList<>();
+    private List<LocalDate> jourFeries = new ArrayList<>();
+    private List<LocalDate> weekEnd = new ArrayList<>();
 
-    public Calendrier(List<LocalDate> mois, List<LocalDate> jour_feries, List<LocalDate> week_end) {
-        this.mois = mois;
-        this.jour_feries = jour_feries;
-        this.week_end = week_end;
-        this.jour_feries.add(LocalDate.of(2024, 6, 17));
-        this.jour_feries.add(LocalDate.of(2024, 6, 25));
-        this.jour_feries.add(LocalDate.of(2024, 6, 26));
+    public Calendrier() {
+        Mois();
+        JourFeries();
     }
 
-    public void mois() {
-        LocalDate debut_du_mois = LocalDate.of(2024, 6, 1);
-        LocalDate fin_du_mois = debut_du_mois.withDayOfMonth(debut_du_mois.lengthOfMonth());
-        for (LocalDate date = debut_du_mois; !date.isAfter(fin_du_mois); date = date.plusDays(1)) {
+    public void Mois() {
+        LocalDate debutMois = LocalDate.of(2024, 5, 26);
+        LocalDate finMois = LocalDate.of(2024, 7, 6);
+
+        LocalDate date = debutMois;
+        while (!date.isAfter(finMois)) {
             mois.add(date);
-            if (est_week_end(date)) {
-                week_end.add(date);
+            if (estWeekEnd(date)) {
+                weekEnd.add(date);
             }
+            date = date.plusDays(1);
         }
     }
 
-    public boolean est_week_end(LocalDate jour) {
+    private void JourFeries() {
+        jourFeries.add(LocalDate.of(2024, 6, 17));
+        jourFeries.add(LocalDate.of(2024, 6, 25));
+        jourFeries.add(LocalDate.of(2024, 6, 26));
+    }
+
+    public boolean estWeekEnd(LocalDate jour) {
         DayOfWeek dayOfWeek = jour.getDayOfWeek();
         return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
     }
 
-    public boolean est_jour_ferie(LocalDate jour) {
-        return jour_feries.contains(jour);
+    public boolean estJourFerie(LocalDate jour) {
+        return jourFeries.contains(jour);
     }
 
     public List<LocalDate> getMois() {
@@ -44,10 +49,24 @@ public class Calendrier {
     }
 
     public List<LocalDate> getJourFeries() {
-        return jour_feries;
+        return jourFeries;
     }
 
     public List<LocalDate> getWeekEnd() {
-        return week_end;
+        return weekEnd;
+    }
+
+    public void ajouterJourFerie(LocalDate jourFerie) {
+        jourFeries.add(jourFerie);
+    }
+
+    public List<LocalDate> getJoursTravailles() {
+        List<LocalDate> joursTravailles = new ArrayList<>();
+        for (LocalDate jour : mois) {
+            if (!estWeekEnd(jour) && !estJourFerie(jour)) {
+                joursTravailles.add(jour);
+            }
+        }
+        return joursTravailles;
     }
 }
