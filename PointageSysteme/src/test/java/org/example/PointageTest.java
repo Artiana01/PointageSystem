@@ -56,7 +56,7 @@ public class PointageTest {
         rabe.setCategory(guardianRabe);
         CalendarWork calendarWork = new CalendarWork(june, holiday, normalEmployeeWorkMonth);
 
-        assertEquals(130000,  calendarWork.gaurdianSalaryAmount(rabe, rabeIncreasedHour));
+        assertEquals(130000,  calendarWork.gaurdianSalaryAmount(rabe, rabeIncreasedHour), 0.001);
     }
 
     @Test
@@ -71,6 +71,6 @@ public class PointageTest {
         rakoto.setCategory(guardianRakoto);
         CalendarWork calendarWork = new CalendarWork(june, holiday, normalEmployeeWorkMonth);
 
-        assertEquals(100000,  calendarWork.gaurdianSalaryAmount(rakoto, rakotoIncreasedHour));
+        assertEquals(100000,  calendarWork.gaurdianSalaryAmount(rakoto, rakotoIncreasedHour), 0.001);
     }
 }
