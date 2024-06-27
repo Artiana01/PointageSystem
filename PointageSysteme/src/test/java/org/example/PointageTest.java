@@ -44,5 +44,33 @@ public class PointageTest {
         assertEquals(420, calendarWork.calculateHourOfWorkOfGuardian(rabe, rabeincreasedHour));
     }
 
+    @Test
+    void SalaryOfRabe() {
+        List<LocalDate> june = new ArrayList<>();
+        List<LocalDate> holiday = new ArrayList<>();
+        List<LocalDate> normalEmployeeWorkMonth = new ArrayList<>();
+        Salary rabeSalary = new Salary(100000);
+        IncreasedHour rabeIncreasedHour = new IncreasedHour(true, false, false);
+        Employee rabe = new Employee("Rabe", 2, "2003-08-07", "2024-05-05", "2027-05-05", rabeSalary, rabeIncreasedHour);
+        Guardian guardianRabe = new Guardian("Guardian", rabe, rabeIncreasedHour, rabeSalary);
+        rabe.setCategory(guardianRabe);
+        CalendarWork calendarWork = new CalendarWork(june, holiday, normalEmployeeWorkMonth);
 
+        assertEquals(130000,  calendarWork.gaurdianSalaryAmount(rabe, rabeIncreasedHour));
+    }
+
+    @Test
+    void SalaryOfRakoto() {
+        List<LocalDate> june = new ArrayList<>();
+        List<LocalDate> holiday = new ArrayList<>();
+        List<LocalDate> normalEmployeeWorkMonth = new ArrayList<>();
+        Salary rakotoSalary = new Salary(100000);
+        IncreasedHour rakotoIncreasedHour = new IncreasedHour(false, false, false);
+        Employee rakoto = new Employee("Rakoto", 2, "2003-08-07", "2024-05-05", "2027-05-05", rakotoSalary, rakotoIncreasedHour);
+        Guardian guardianRakoto = new Guardian("Guardian", rakoto, rakotoIncreasedHour, rakotoSalary);
+        rakoto.setCategory(guardianRakoto);
+        CalendarWork calendarWork = new CalendarWork(june, holiday, normalEmployeeWorkMonth);
+
+        assertEquals(100000,  calendarWork.gaurdianSalaryAmount(rakoto, rakotoIncreasedHour));
+    }
 }
